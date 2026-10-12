@@ -69,7 +69,7 @@ export default function Navbar() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl"
+      className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/80 shadow-sm shadow-black/[0.02] backdrop-blur-2xl"
     >
       <nav
         aria-label="Main navigation"
@@ -81,28 +81,35 @@ export default function Navbar() {
           aria-label="Fahim Muntasir Rahat - Home"
           className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5"
         >
-          <Image
-            src="/images/profile.jpg"
-            alt="Fahim Muntasir Rahat"
-            width={42}
-            height={42}
-            priority
-            className="h-9 w-9 shrink-0 rounded-full border border-border object-cover transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
-          />
+          <span className="relative shrink-0 rounded-full p-[2px]">
+            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+            <Image
+              src="/images/profile.jpg"
+              alt="Fahim Muntasir Rahat"
+              width={42}
+              height={42}
+              priority
+              className="relative h-9 w-9 rounded-full border-2 border-background object-cover transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
+            />
+          </span>
 
           <span className="truncate text-sm font-bold tracking-tight min-[375px]:text-[15px] sm:text-base">
             <span className="hidden min-[360px]:inline">Fahim </span>
-            Muntasir<span className="text-accent"> Rahat</span>
+            Muntasir
+            <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+              {" "}
+              Rahat
+            </span>
           </span>
         </Link>
 
-        <div className="hidden items-center gap-0.5 md:flex lg:gap-1">
+        <div className="hidden items-center gap-1 rounded-full border border-border/70 bg-surface/70 p-1 shadow-sm backdrop-blur-xl md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(event) => handleNavigation(event, link.href)}
-              className="rounded-full px-3 py-2 text-sm text-muted transition-colors duration-200 hover:bg-surface-secondary hover:text-foreground lg:px-4"
+              className="rounded-full px-3 py-2 text-sm font-medium text-muted transition-all duration-300 hover:bg-accent-soft hover:text-accent lg:px-4"
             >
               {link.label}
             </a>
@@ -115,7 +122,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={(event) => handleNavigation(event, "#contact")}
-            className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/20 lg:px-5"
+            className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 lg:px-5"
           >
             Let&apos;s Talk
             <ArrowUpRight
@@ -136,7 +143,7 @@ export default function Navbar() {
             }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border transition-colors hover:bg-surface-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-10 sm:w-10"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface/70 transition-all duration-200 hover:border-accent/40 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-10 sm:w-10"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -162,7 +169,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border bg-background md:hidden"
+            className="overflow-hidden border-t border-border/70 bg-background/95 backdrop-blur-2xl md:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
               {navLinks.map((link, index) => (
@@ -173,7 +180,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.04, duration: 0.2 }}
                   onClick={(event) => handleNavigation(event, link.href)}
-                  className="rounded-xl px-4 py-3 text-sm font-medium text-muted transition-colors hover:bg-surface-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {link.label}
                 </motion.a>
@@ -182,7 +189,7 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={(event) => handleNavigation(event, "#contact")}
-                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Let&apos;s Talk
                 <ArrowUpRight size={16} />

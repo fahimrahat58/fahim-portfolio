@@ -26,7 +26,7 @@ export default function Hero() {
       className="relative isolate flex min-h-[100svh] scroll-mt-20 items-center overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pt-36 lg:px-12"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.09),transparent_55%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.13),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_15%,rgba(37,99,235,0.13),transparent_42%),radial-gradient(ellipse_at_85%_65%,rgba(6,182,212,0.09),transparent_42%)] dark:bg-[radial-gradient(ellipse_at_20%_15%,rgba(59,130,246,0.17),transparent_42%),radial-gradient(ellipse_at_85%_65%,rgba(6,182,212,0.10),transparent_42%)]" />
 
         <motion.div
           aria-hidden="true"
@@ -40,7 +40,7 @@ export default function Hero() {
                 }
           }
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -right-40 top-24 h-80 w-80 rounded-full bg-blue-500/10 blur-[100px] sm:h-[30rem] sm:w-[30rem]"
+          className="absolute -right-40 top-24 h-80 w-80 rounded-full bg-blue-500/15 blur-[110px] sm:h-[30rem] sm:w-[30rem]"
         />
 
         <motion.div
@@ -58,13 +58,13 @@ export default function Hero() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute -bottom-24 -left-40 h-72 w-72 rounded-full bg-cyan-500/[0.08] blur-[100px] sm:h-96 sm:w-96"
+          className="absolute -bottom-24 -left-40 h-72 w-72 rounded-full bg-cyan-500/10 blur-[110px] sm:h-96 sm:w-96"
         />
 
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:64px_64px] opacity-[0.12] [mask-image:radial-gradient(ellipse_at_center,black_15%,transparent_75%)]" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -78,25 +78,25 @@ export default function Hero() {
           className="relative z-10"
         >
           <motion.div variants={reveal}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-soft px-3.5 py-2 text-xs font-semibold tracking-wide text-accent sm:text-sm">
-              <Sparkles size={15} />
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/[0.07] px-4 py-2.5 text-xs font-semibold tracking-wide text-blue-600 shadow-sm shadow-blue-500/[0.04] backdrop-blur-xl dark:border-blue-400/20 dark:bg-blue-400/[0.08] dark:text-blue-300 sm:text-sm">
+              <Sparkles size={15} className="text-cyan-500" />
               Web Developer · Open to Opportunities
             </span>
           </motion.div>
 
           <motion.p
             variants={reveal}
-            className="mt-9 text-base font-medium text-muted sm:text-lg"
+            className="mt-9 text-base font-medium tracking-wide text-muted sm:text-lg"
           >
             Hello, I&apos;m
           </motion.p>
 
           <motion.h1
             variants={reveal}
-            className="mt-3 max-w-3xl text-5xl font-bold leading-[1.08] tracking-[-0.055em] sm:text-6xl md:text-7xl xl:text-[5.5rem]"
+            className="mt-3 max-w-3xl text-5xl font-extrabold leading-[1.06] tracking-[-0.065em] sm:text-6xl md:text-7xl xl:text-[5.5rem]"
           >
             Fahim Muntasir
-            <span className="mt-1 block bg-gradient-to-r from-blue-500 via-blue-600 to-cyan-400 bg-clip-text pb-2 text-transparent dark:from-blue-400 dark:via-blue-500 dark:to-cyan-300">
+            <span className="mt-2 block bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 bg-clip-text pb-3 text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-cyan-300">
               Rahat.
             </span>
           </motion.h1>
@@ -106,18 +106,18 @@ export default function Hero() {
             className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg sm:leading-9"
           >
             I build modern, responsive web experiences with{" "}
-            <span className="font-medium text-foreground">React</span> and{" "}
-            <span className="font-medium text-foreground">Next.js</span>,
+            <span className="font-semibold text-foreground">React</span> and{" "}
+            <span className="font-semibold text-foreground">Next.js</span>,
             combining thoughtful design with practical solutions.
           </motion.p>
 
-          <motion.div variants={reveal} className="mt-8 flex flex-wrap gap-3">
+          <motion.div variants={reveal} className="mt-8 flex flex-wrap gap-2.5">
             {skills.map((skill, index) => (
               <motion.span
                 key={skill}
                 whileHover={reduceMotion ? undefined : { y: -4, scale: 1.04 }}
                 transition={{ type: "spring", stiffness: 350, damping: 18 }}
-                className="rounded-full border border-border bg-surface/80 px-3.5 py-2 text-xs font-medium text-muted shadow-sm backdrop-blur sm:text-sm"
+                className="rounded-xl border border-border/80 bg-surface/70 px-3.5 py-2.5 text-xs font-medium text-muted shadow-sm backdrop-blur-xl transition-colors duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.06] hover:text-foreground sm:text-sm"
               >
                 {skill}
               </motion.span>
@@ -132,7 +132,7 @@ export default function Hero() {
               href="#projects"
               whileHover={reduceMotion ? undefined : { y: -3 }}
               whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-shadow hover:bg-accent-hover hover:shadow-accent/30"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all duration-300 hover:from-blue-500 hover:to-indigo-500 hover:shadow-xl hover:shadow-blue-600/30 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
             >
               Explore My Work
               <ArrowRight
@@ -145,7 +145,7 @@ export default function Hero() {
               href="#contact"
               whileHover={reduceMotion ? undefined : { y: -3 }}
               whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/70 px-6 py-3.5 text-sm font-semibold transition-colors hover:border-accent/40 hover:bg-accent-soft"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface/60 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur-xl transition-all duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.06] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
             >
               Get in Touch
               <ArrowUpRight size={17} />
@@ -156,14 +156,16 @@ export default function Hero() {
             variants={reveal}
             className="mt-9 flex items-center gap-4"
           >
-            <span className="text-xs font-medium text-muted">Find me on</span>
+            <span className="text-xs font-medium tracking-wide text-muted">
+              Find me on
+            </span>
 
             <a
               href="https://github.com/fahimrahat58"
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub profile"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted transition-all hover:-translate-y-1 hover:border-accent/40 hover:text-accent"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface/50 text-muted backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:bg-blue-500/[0.07] hover:text-blue-500 hover:shadow-lg hover:shadow-blue-500/10"
             >
               <svg
                 aria-hidden="true"
@@ -179,7 +181,7 @@ export default function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn profile"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted transition-all hover:-translate-y-1 hover:border-accent/40 hover:text-accent"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface/50 text-muted backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:bg-blue-500/[0.07] hover:text-blue-500 hover:shadow-lg hover:shadow-blue-500/10"
             >
               <svg
                 aria-hidden="true"
@@ -207,17 +209,22 @@ export default function Hero() {
             aria-hidden="true"
             animate={reduceMotion ? {} : { rotate: 360 }}
             transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-4 rounded-[2.5rem] border border-dashed border-accent/20 sm:-inset-7"
+            className="absolute -inset-3 rounded-[2.5rem] border border-dashed border-blue-500/20 sm:-inset-6"
           />
 
-          <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface/80 p-5 shadow-2xl shadow-blue-950/[0.08] backdrop-blur-xl sm:p-7 dark:shadow-black/20">
-            <div className="flex items-center justify-between border-b border-border pb-5">
+          <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/[0.08] via-transparent to-cyan-400/[0.08] blur-2xl" />
+
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-surface/80 p-5 shadow-2xl shadow-blue-950/[0.08] backdrop-blur-2xl sm:rounded-[2rem] sm:p-7 dark:shadow-black/30">
+            <div className="flex items-center justify-between border-b border-border/80 pb-5">
               <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
-                <span className="h-2.5 w-2.5 rounded-full bg-cyan-400" />
-                <span className="h-2.5 w-2.5 rounded-full bg-indigo-400" />
+                <span className="h-2.5 w-2.5 rounded-full bg-rose-400 shadow-sm shadow-rose-400/30" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/30" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/30" />
               </div>
-              <span className="font-mono text-xs text-muted">developer.ts</span>
+
+              <span className="rounded-lg border border-border/70 bg-background/50 px-3 py-1.5 font-mono text-xs text-muted">
+                developer.ts
+              </span>
             </div>
 
             <div className="space-y-5 py-7 font-mono text-xs leading-7 sm:text-sm">
@@ -234,6 +241,7 @@ export default function Hero() {
                   </span>
                   ,
                 </p>
+
                 <p>
                   <span className="text-cyan-600 dark:text-cyan-300">
                     focus
@@ -244,24 +252,30 @@ export default function Hero() {
                   </span>
                   ,
                 </p>
+
                 <p>
                   <span className="text-cyan-600 dark:text-cyan-300">
                     stack
                   </span>
                   : [
                 </p>
+
                 <div className="space-y-1 pl-5 sm:pl-7">
                   <p className="text-emerald-600 dark:text-emerald-300">
                     &quot;React&quot;,
                   </p>
+
                   <p className="text-emerald-600 dark:text-emerald-300">
                     &quot;Next.js&quot;,
                   </p>
+
                   <p className="text-emerald-600 dark:text-emerald-300">
                     &quot;TypeScript&quot;
                   </p>
                 </div>
+
                 <p>],</p>
+
                 <p>
                   <span className="text-cyan-600 dark:text-cyan-300">
                     mindset
@@ -276,7 +290,7 @@ export default function Hero() {
               <p className="text-muted">{"};"}</p>
             </div>
 
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-accent/15 bg-accent-soft p-4">
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-blue-500/15 bg-gradient-to-r from-blue-500/[0.07] to-cyan-400/[0.05] p-4">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-foreground">
                   Turning ideas into code
@@ -285,6 +299,7 @@ export default function Hero() {
                   One project at a time.
                 </p>
               </div>
+
               <motion.div
                 animate={reduceMotion ? {} : { y: [0, -4, 0] }}
                 transition={{
@@ -292,7 +307,7 @@ export default function Hero() {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-white shadow-lg shadow-accent/20"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20"
               >
                 <ArrowUpRight size={22} />
               </motion.div>
@@ -303,16 +318,18 @@ export default function Hero() {
             aria-hidden="true"
             animate={reduceMotion ? {} : { y: [0, -10, 0], rotate: [0, 5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-3 -top-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-surface shadow-xl sm:-right-5 sm:-top-6"
+            className="absolute -right-2 -top-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-border/80 bg-surface/90 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-right-5 sm:-top-6"
           >
-            <span className="text-lg font-bold text-accent">{"</>"}</span>
+            <span className="bg-gradient-to-br from-blue-500 to-cyan-400 bg-clip-text text-lg font-bold text-transparent">
+              {"</>"}
+            </span>
           </motion.div>
 
           <motion.div
             aria-hidden="true"
             animate={reduceMotion ? {} : { y: [0, 8, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-4 -left-3 rounded-2xl border border-border bg-surface px-4 py-3 shadow-xl sm:-left-5"
+            className="absolute -bottom-4 -left-2 rounded-2xl border border-border/80 bg-surface/90 px-4 py-3 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-left-5"
           >
             <p className="text-xs font-medium text-muted">
               Currently focused on
@@ -335,7 +352,7 @@ export default function Hero() {
             ? {}
             : { duration: 2, repeat: Infinity, ease: "easeInOut" },
         }}
-        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-accent sm:flex"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-blue-500 sm:flex"
       >
         <span className="text-[10px] font-medium uppercase tracking-[0.25em]">
           Scroll to explore
