@@ -40,6 +40,30 @@ export default function Navbar() {
     };
   }, []);
 
+  const handleNavigation = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith("#")) return;
+
+    const target = document.getElementById(href.slice(1));
+
+    setMenuOpen(false);
+
+    if (!target) return;
+
+    event.preventDefault();
+
+    window.history.replaceState(null, "", href);
+
+    requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
   return (
     <motion.header
       initial={{ y: -24, opacity: 0 }}
@@ -53,7 +77,7 @@ export default function Navbar() {
       >
         <Link
           href="#home"
-          onClick={() => setMenuOpen(false)}
+          onClick={(event) => handleNavigation(event, "#home")}
           aria-label="Fahim Muntasir Rahat - Home"
           className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5"
         >
@@ -77,6 +101,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
+              onClick={(event) => handleNavigation(event, link.href)}
               className="rounded-full px-3 py-2 text-sm text-muted transition-colors duration-200 hover:bg-surface-secondary hover:text-foreground lg:px-4"
             >
               {link.label}
@@ -89,6 +114,7 @@ export default function Navbar() {
 
           <a
             href="#contact"
+            onClick={(event) => handleNavigation(event, "#contact")}
             className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/20 lg:px-5"
           >
             Let&apos;s Talk
@@ -146,7 +172,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.04, duration: 0.2 }}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(event) => handleNavigation(event, link.href)}
                   className="rounded-xl px-4 py-3 text-sm font-medium text-muted transition-colors hover:bg-surface-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {link.label}
@@ -155,7 +181,7 @@ export default function Navbar() {
 
               <a
                 href="#contact"
-                onClick={() => setMenuOpen(false)}
+                onClick={(event) => handleNavigation(event, "#contact")}
                 className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Let&apos;s Talk
