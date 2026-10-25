@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Code2, ExternalLink, FileText } from "lucide-react";
+
 import type { Project } from "../data/projects";
 
 interface ProjectCardProps {
@@ -13,9 +15,35 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const reduceMotion = useReducedMotion();
+  const router = useRouter();
+
+  const detailsUrl = `/projects?project=${encodeURIComponent(project.number)}`;
+
+  function handleCardClick(event: React.MouseEvent<HTMLElement>) {
+    const target = event.target as HTMLElement;
+
+    // Keep links and buttons inside the card working independently.
+    if (target.closest("a, button")) return;
+
+    router.push(detailsUrl);
+  }
+
+  function handleCardKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.target !== event.currentTarget) return;
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      router.push(detailsUrl);
+    }
+  }
 
   return (
     <motion.article
+      role="link"
+      tabIndex={0}
+      aria-label={`View details for ${project.title}`}
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
       initial={{ opacity: 0, y: reduceMotion ? 0 : 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}
@@ -25,7 +53,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         ease: "easeOut",
       }}
       whileHover={reduceMotion ? undefined : { y: -6 }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface/90 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/35 hover:shadow-2xl hover:shadow-blue-950/[0.07] dark:hover:shadow-black/25"
+      className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface/90 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/35 hover:shadow-2xl hover:shadow-blue-950/[0.07] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 dark:hover:shadow-black/25"
     >
       {/* Background Effect */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/[0.035] via-transparent to-cyan-400/[0.035] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -109,7 +137,8 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/15 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-600/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            onClick={(event) => event.stopPropagation()}
+            className="relative z-10 inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/15 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-600/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             Live Demo
             <ExternalLink size={15} />
@@ -120,7 +149,8 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface/70 px-3.5 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/35 hover:bg-blue-500/[0.05] hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            onClick={(event) => event.stopPropagation()}
+            className="relative z-10 inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface/70 px-3.5 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/35 hover:bg-blue-500/[0.05] hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             <Code2 size={16} />
             Source Code
@@ -128,9 +158,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Project Details */}
           <Link
-            href={`/projects?project=${encodeURIComponent(project.number)}`}
+            href={detailsUrl}
             aria-label={`View details for ${project.title}`}
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/[0.05] px-3.5 py-2.5 text-sm font-semibold text-blue-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/50 hover:bg-blue-500/10 dark:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            onClick={(event) => event.stopPropagation()}
+            className="relative z-10 inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/[0.05] px-3.5 py-2.5 text-sm font-semibold text-blue-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/50 hover:bg-blue-500/10 dark:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             <FileText size={16} />
             Details
