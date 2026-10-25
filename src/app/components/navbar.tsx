@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import ThemeToggle from "@/app/components/theme-toggle";
@@ -18,6 +19,8 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -41,28 +44,74 @@ export default function Navbar() {
     };
   }, []);
 
+  // Scroll to the requested section after navigating back to the home page.
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    let attempts = 0;
+    let frame = 0;
+
+    const scrollToSection = () => {
+      const target = document.getElementById(hash.slice(1));
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
+
+      // Allow the home page sections time to mount.
+      if (attempts < 10) {
+        attempts += 1;
+        frame = requestAnimationFrame(scrollToSection);
+      }
+    };
+
+    frame = requestAnimationFrame(scrollToSection);
+
+    return () => cancelAnimationFrame(frame);
+  }, [pathname]);
+
   const handleNavigation = (
     event: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    if (!href.startsWith("#")) return;
-
-    const target = document.getElementById(href.slice(1));
-
     setMenuOpen(false);
 
-    if (!target) return;
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
 
-    event.preventDefault();
+    // From another route, navigate to the home page and its section.
+    if (pathname !== "/") {
+      event.preventDefault();
+      router.push(`/${href}`);
+      return;
+    }
 
-    window.history.replaceState(null, "", href);
+    // On the home page, scroll directly to the section.
+    const target = document.getElementById(href.slice(1));
 
-    requestAnimationFrame(() => {
+    if (target) {
+      event.preventDefault();
+
+      window.history.pushState(null, "", `/${href}`);
+
       target.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
-    });
+    }
   };
 
   return (
@@ -76,14 +125,16 @@ export default function Navbar() {
         aria-label="Main navigation"
         className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-2 px-3 min-[375px]:px-4 sm:h-[72px] sm:px-8 lg:px-12"
       >
+        {/* Logo */}
         <Link
-          href="#home"
+          href="/#home"
           onClick={(event) => handleNavigation(event, "#home")}
           aria-label="Fahim Muntasir Rahat - Home"
           className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5"
         >
           <span className="relative shrink-0 rounded-full p-[2px]">
             <span className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+
             <Image
               src="/images/profile.jpg"
               alt="Fahim Muntasir Rahat"
@@ -104,25 +155,31 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 rounded-full border border-border/70 bg-surface/70 p-1 shadow-sm backdrop-blur-xl md:flex">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
-              href={link.href}
-              onClick={(event) => handleNavigation(event, link.href)}
+              href={`/${link.href}`}
+              onClick={(event) =>
+                handleNavigation(event, link.href)
+              }
               className="rounded-full px-3 py-2 text-sm font-medium text-muted transition-all duration-300 hover:bg-accent-soft hover:text-accent lg:px-4"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
+        {/* Desktop Actions */}
         <div className="hidden shrink-0 items-center gap-3 md:flex">
           <ThemeToggle />
 
-          <a
-            href="#contact"
-            onClick={(event) => handleNavigation(event, "#contact")}
+          <Link
+            href="/#contact"
+            onClick={(event) =>
+              handleNavigation(event, "#contact")
+            }
             className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 lg:px-5"
           >
             Let&apos;s Talk
@@ -130,9 +187,10 @@ export default function Navbar() {
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
-          </a>
+          </Link>
         </div>
 
+        {/* Mobile Actions */}
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:hidden">
           <ThemeToggle />
 
@@ -140,7 +198,9 @@ export default function Navbar() {
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
+              menuOpen
+                ? "Close navigation menu"
+                : "Open navigation menu"
             }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
@@ -162,6 +222,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile Navigation */}
       <AnimatePresence initial={false}>
         {menuOpen && (
           <motion.div
@@ -174,27 +235,37 @@ export default function Navbar() {
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
               {navLinks.map((link, index) => (
-                <motion.a
+                <motion.div
                   key={link.href}
-                  href={link.href}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.04, duration: 0.2 }}
-                  onClick={(event) => handleNavigation(event, link.href)}
-                  className="rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  transition={{
+                    delay: index * 0.04,
+                    duration: 0.2,
+                  }}
                 >
-                  {link.label}
-                </motion.a>
+                  <Link
+                    href={`/${link.href}`}
+                    onClick={(event) =>
+                      handleNavigation(event, link.href)
+                    }
+                    className="block rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
 
-              <a
-                href="#contact"
-                onClick={(event) => handleNavigation(event, "#contact")}
+              <Link
+                href="/#contact"
+                onClick={(event) =>
+                  handleNavigation(event, "#contact")
+                }
                 className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Let&apos;s Talk
                 <ArrowUpRight size={16} />
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

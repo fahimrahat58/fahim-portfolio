@@ -31,35 +31,59 @@ function ProjectDetailsContent() {
   );
 
   const reveal = {
-    hidden: { opacity: 0, y: reduceMotion ? 0 : 24 },
-    visible: { opacity: 1, y: 0 },
+    hidden: {
+      opacity: 0,
+      y: reduceMotion ? 0 : 24,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
   };
 
   const transition = {
-    duration: reduceMotion ? 0 : 0.5,
+    duration: reduceMotion ? 0 : 0.55,
     ease: "easeOut" as const,
   };
 
   // Project list when no project is selected
   if (!project) {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-background px-5 py-16 sm:px-8 lg:px-12">
-        <div className="pointer-events-none absolute left-1/2 top-20 -z-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/[0.08] blur-[100px]" />
+      <main className="relative min-h-screen overflow-hidden bg-background px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
+        <div className="pointer-events-none absolute left-1/2 top-40 -z-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-6xl">
-          <Link
-            href="/#projects"
-            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border bg-surface/70 px-4 py-2.5 text-sm font-semibold transition hover:border-blue-500/40 hover:text-blue-500"
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={transition}
           >
-            <ArrowLeft size={17} />
-            Back to Portfolio
-          </Link>
+            <Link
+              href="/#projects"
+              className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border bg-surface/70 px-4 py-2.5 text-sm font-semibold transition-colors duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.05] hover:text-blue-500"
+            >
+              <ArrowLeft size={17} />
+              Back to Portfolio
+            </Link>
+          </motion.div>
 
           <motion.div
-            variants={reveal}
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: reduceMotion ? 0 : 25,
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+              },
+            }}
             initial="hidden"
             animate="visible"
-            transition={transition}
+            transition={{
+              ...transition,
+              delay: reduceMotion ? 0 : 0.08,
+            }}
             className="mb-10 mt-12"
           >
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-blue-500">
@@ -80,17 +104,27 @@ function ProjectDetailsContent() {
             {projects.map((item, index) => (
               <motion.article
                 key={item.number}
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.12 }}
                 transition={{
-                  duration: reduceMotion ? 0 : 0.45,
-                  delay: reduceMotion ? 0 : index * 0.08,
+                  duration: reduceMotion ? 0 : 0.5,
+                  delay: reduceMotion ? 0 : index * 0.1,
+                  ease: "easeOut",
                 }}
-                className="group overflow-hidden rounded-3xl border border-border/80 bg-surface/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-xl"
+                whileHover={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        y: -6,
+                        transition: { duration: 0.25 },
+                      }
+                }
+                className="group overflow-hidden rounded-3xl border border-border/80 bg-surface/80 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/[0.05]"
               >
                 <Link
                   href={`/projects?project=${encodeURIComponent(item.number)}`}
-                  className="block"
+                  className="block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                 >
                   <div className="relative m-3 aspect-[16/10] overflow-hidden rounded-2xl bg-surface-secondary sm:m-4">
                     <Image
@@ -98,7 +132,7 @@ function ProjectDetailsContent() {
                       alt={`${item.title} project preview`}
                       fill
                       sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
                     />
 
                     <span className="absolute left-3 top-3 rounded-lg border border-white/20 bg-black/60 px-3 py-1.5 font-mono text-xs text-white backdrop-blur">
@@ -124,7 +158,7 @@ function ProjectDetailsContent() {
 
                       <ArrowUpRight
                         size={21}
-                        className="shrink-0 text-muted transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-blue-500"
+                        className="shrink-0 text-muted transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-blue-500"
                       />
                     </div>
 
@@ -136,7 +170,7 @@ function ProjectDetailsContent() {
                       {item.technologies.map((technology) => (
                         <span
                           key={technology}
-                          className="rounded-lg border border-border bg-surface-secondary px-3 py-1.5 text-xs font-medium text-muted"
+                          className="rounded-lg border border-border bg-surface-secondary px-3 py-1.5 text-xs font-medium text-muted transition-colors duration-300 group-hover:border-blue-500/15"
                         >
                           {technology}
                         </span>
@@ -145,7 +179,10 @@ function ProjectDetailsContent() {
 
                     <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-500">
                       View Project Details
-                      <ArrowUpRight size={16} />
+                      <ArrowUpRight
+                        size={16}
+                        className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      />
                     </div>
                   </div>
                 </Link>
@@ -179,20 +216,20 @@ function ProjectDetailsContent() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
-      <div className="pointer-events-none absolute -right-32 top-24 -z-0 h-80 w-80 rounded-full bg-blue-500/[0.08] blur-[110px]" />
+    <main className="relative min-h-screen overflow-hidden bg-background px-5 pb-10 pt-28 sm:px-8 sm:pb-14 sm:pt-32 lg:px-12 lg:pb-16 lg:pt-36">
+      <div className="pointer-events-none absolute -right-32 top-40 -z-0 h-80 w-80 rounded-full bg-blue-500/[0.08] blur-[110px]" />
       <div className="pointer-events-none absolute -left-32 top-[45%] -z-0 h-72 w-72 rounded-full bg-cyan-500/[0.06] blur-[100px]" />
 
       <div className="relative mx-auto max-w-6xl">
         {/* Back Navigation */}
         <motion.div
-          initial={{ opacity: 0, x: reduceMotion ? 0 : -16 }}
+          initial={reduceMotion ? false : { opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={transition}
         >
           <Link
             href="/#projects"
-            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border bg-surface/70 px-4 py-2.5 text-sm font-semibold transition-all hover:border-blue-500/40 hover:bg-blue-500/[0.05] hover:text-blue-500"
+            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border bg-surface/70 px-4 py-2.5 text-sm font-semibold transition-all duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.05] hover:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             <ArrowLeft size={17} />
             Back to Projects
@@ -204,7 +241,10 @@ function ProjectDetailsContent() {
           variants={reveal}
           initial="hidden"
           animate="visible"
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.05 }}
+          transition={{
+            ...transition,
+            delay: reduceMotion ? 0 : 0.05,
+          }}
           className="mt-10"
         >
           <div className="flex flex-wrap items-center gap-3">
@@ -234,35 +274,44 @@ function ProjectDetailsContent() {
 
           {/* Project Links */}
           <div className="mt-7 flex flex-wrap gap-3">
-            <a
+            <motion.a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+              whileHover={reduceMotion ? undefined : { y: -3, scale: 1.02 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-shadow duration-300 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
             >
               <Globe size={17} />
               Live Project
               <ExternalLink size={15} />
-            </a>
+            </motion.a>
 
-            <a
+            <motion.a
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border bg-surface/80 px-5 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-500/[0.05] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+              whileHover={reduceMotion ? undefined : { y: -3, scale: 1.02 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border bg-surface/80 px-5 py-3 text-sm font-semibold transition-colors duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.05] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
             >
               <Code2 size={17} />
               Client Source Code
               <ArrowUpRight size={16} />
-            </a>
+            </motion.a>
           </div>
         </motion.section>
 
         {/* Project Screenshot */}
         <motion.div
-          initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.12 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 35, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.7,
+            ease: "easeOut",
+            delay: reduceMotion ? 0 : 0.1,
+          }}
           className="mt-10 overflow-hidden rounded-3xl border border-border/80 bg-surface/80 p-2 shadow-xl shadow-blue-950/[0.04] sm:mt-12 sm:p-3"
         >
           <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-surface-secondary sm:aspect-[16/9]">
@@ -272,7 +321,7 @@ function ProjectDetailsContent() {
               fill
               priority
               sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-contain object-center"
+              className="object-contain object-center transition-transform duration-700 hover:scale-[1.02]"
             />
           </div>
         </motion.div>
@@ -280,11 +329,11 @@ function ProjectDetailsContent() {
         {/* Description and Technology Stack */}
         <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_0.85fr] lg:gap-8">
           <motion.section
-            variants={reveal}
-            initial="hidden"
-            animate="visible"
-            transition={{ ...transition, delay: reduceMotion ? 0 : 0.18 }}
-            className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm sm:p-8"
+            initial={reduceMotion ? false : { opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={transition}
+            className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-blue-500/[0.04] sm:p-8"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
@@ -326,11 +375,14 @@ function ProjectDetailsContent() {
           </motion.section>
 
           <motion.section
-            variants={reveal}
-            initial="hidden"
-            animate="visible"
-            transition={{ ...transition, delay: reduceMotion ? 0 : 0.24 }}
-            className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm sm:p-8"
+            initial={reduceMotion ? false : { opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{
+              ...transition,
+              delay: reduceMotion ? 0 : 0.12,
+            }}
+            className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-cyan-500/[0.04] sm:p-8"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
@@ -346,14 +398,21 @@ function ProjectDetailsContent() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5">
-              {project.technologies.map((technology) => (
-                <span
+              {project.technologies.map((technology, index) => (
+                <motion.span
                   key={technology}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface-secondary px-3.5 py-2.5 text-sm font-medium transition-colors hover:border-blue-500/30 hover:bg-blue-500/[0.05]"
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.3,
+                    delay: reduceMotion ? 0 : index * 0.04,
+                  }}
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface-secondary px-3.5 py-2.5 text-sm font-medium transition-colors duration-300 hover:border-blue-500/30 hover:bg-blue-500/[0.05]"
                 >
                   <Code2 size={15} className="shrink-0 text-blue-500" />
                   {technology}
-                </span>
+                </motion.span>
               ))}
             </div>
 
@@ -370,7 +429,7 @@ function ProjectDetailsContent() {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-cyan-500 dark:text-blue-400"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-colors duration-300 hover:text-cyan-500 dark:text-blue-400"
                 >
                   Live Website
                   <ArrowUpRight size={16} />
@@ -380,7 +439,7 @@ function ProjectDetailsContent() {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-cyan-500 dark:text-blue-400"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-colors duration-300 hover:text-cyan-500 dark:text-blue-400"
                 >
                   GitHub Repository
                   <ArrowUpRight size={16} />
@@ -398,17 +457,26 @@ function ProjectDetailsContent() {
             return (
               <motion.article
                 key={section.title}
-                variants={reveal}
-                initial="hidden"
-                animate="visible"
+                initial={reduceMotion ? false : { opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  ...transition,
-                  delay: reduceMotion ? 0 : 0.28 + index * 0.1,
+                  duration: reduceMotion ? 0 : 0.55,
+                  delay: reduceMotion ? 0 : index * 0.12,
+                  ease: "easeOut",
                 }}
-                className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm sm:p-8"
+                whileHover={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        y: -4,
+                        transition: { duration: 0.25 },
+                      }
+                }
+                className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/[0.04] sm:p-8"
               >
                 <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500 transition-transform duration-300 group-hover:scale-105">
                     <SectionIcon size={23} />
                   </span>
 
@@ -433,8 +501,15 @@ function ProjectDetailsContent() {
 
                 <ul className="mt-5 space-y-4">
                   {section.items.map((item, itemIndex) => (
-                    <li
+                    <motion.li
                       key={`${section.title}-${itemIndex}`}
+                      initial={reduceMotion ? false : { opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: reduceMotion ? 0 : 0.35,
+                        delay: reduceMotion ? 0 : itemIndex * 0.06,
+                      }}
                       className="flex items-start gap-3"
                     >
                       <CheckCircle2
@@ -445,7 +520,7 @@ function ProjectDetailsContent() {
                       <span className="text-sm leading-7 text-foreground/85">
                         {item}
                       </span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </motion.article>
@@ -454,7 +529,13 @@ function ProjectDetailsContent() {
         </section>
 
         {/* Other Projects */}
-        <section className="mt-16 border-t border-border pt-10 sm:mt-20 sm:pt-12">
+        <motion.section
+          initial={reduceMotion ? false : { opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={transition}
+          className="mt-16 border-t border-border pt-10 sm:mt-20 sm:pt-12"
+        >
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-500">
@@ -468,7 +549,7 @@ function ProjectDetailsContent() {
 
             <Link
               href="/#projects"
-              className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-blue-500 transition-colors hover:text-cyan-500"
+              className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-blue-500 transition-colors duration-300 hover:text-cyan-500"
             >
               All Projects
               <ArrowUpRight size={17} />
@@ -478,47 +559,75 @@ function ProjectDetailsContent() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {projects
               .filter((item) => item.number !== project.number)
-              .map((item) => (
-                <Link
+              .map((item, index) => (
+                <motion.div
                   key={item.number}
-                  href={`/projects?project=${encodeURIComponent(item.number)}`}
-                  className="group rounded-2xl border border-border/80 bg-surface/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-lg"
+                  initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.45,
+                    delay: reduceMotion ? 0 : index * 0.08,
+                  }}
+                  whileHover={
+                    reduceMotion
+                      ? undefined
+                      : {
+                          y: -5,
+                          transition: { duration: 0.2 },
+                        }
+                  }
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs text-blue-500">
-                      PROJECT {item.number}
+                  <Link
+                    href={`/projects?project=${encodeURIComponent(item.number)}`}
+                    className="group block h-full rounded-2xl border border-border/80 bg-surface/70 p-5 transition-[border-color,box-shadow] duration-300 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/[0.04] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-xs text-blue-500">
+                        PROJECT {item.number}
+                      </span>
+
+                      <ArrowUpRight
+                        size={18}
+                        className="text-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-500"
+                      />
+                    </div>
+
+                    <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
+
+                    <p className="mt-2 text-sm leading-6 text-muted">
+                      {item.subtitle}
+                    </p>
+
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-500">
+                      View Details
+                      <ArrowUpRight
+                        size={15}
+                        className="transition-transform duration-300 group-hover:translate-x-0.5"
+                      />
                     </span>
-
-                    <ArrowUpRight
-                      size={18}
-                      className="text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-500"
-                    />
-                  </div>
-
-                  <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
-
-                  <p className="mt-2 text-sm leading-6 text-muted">
-                    {item.subtitle}
-                  </p>
-
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-500">
-                    View Details
-                    <ArrowUpRight size={15} />
-                  </span>
-                </Link>
+                  </Link>
+                </motion.div>
               ))}
           </div>
-        </section>
+        </motion.section>
 
-        <div className="mt-12 flex justify-center">
+        {/* Bottom Navigation */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={transition}
+          className="mt-12 flex justify-center"
+        >
           <Link
             href="/#projects"
-            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/70 px-5 py-3 text-sm font-semibold transition-all hover:border-blue-500/40 hover:text-blue-500"
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/70 px-5 py-3 text-sm font-semibold transition-all duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.05] hover:text-blue-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             <ArrowLeft size={17} />
             Back to Portfolio
           </Link>
-        </div>
+        </motion.div>
       </div>
     </main>
   );
