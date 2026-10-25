@@ -8,19 +8,19 @@ const highlights = [
     icon: Code2,
     title: "Modern Web Development",
     description:
-      "Building responsive interfaces with React, Next.js and TypeScript.",
+      "Creating responsive, accessible, and engaging web experiences with React, Next.js, and TypeScript.",
   },
   {
     icon: Rocket,
-    title: "Learning by Building",
+    title: "Full-Stack Development",
     description:
-      "Turning ideas into practical projects and improving through hands-on experience.",
+      "Integrating APIs, authentication, and databases to build functional, data-driven web applications.",
   },
   {
     icon: Target,
-    title: "Focused on Growth",
+    title: "Quality & Performance",
     description:
-      "Writing cleaner code, solving problems and developing production-ready skills.",
+      "Focusing on clean code, optimized performance, and intuitive user experiences.",
   },
 ];
 
@@ -78,23 +78,24 @@ export default function AboutSection() {
               <span className="font-semibold text-foreground">
                 Fahim Muntasir Rahat
               </span>
-              , a web developer focused on building modern, responsive and
-              user-friendly web applications.
+              , a web developer passionate about creating modern, responsive,
+              and user-friendly web applications that deliver meaningful digital
+              experiences.
             </p>
 
             <p>
-              My current focus is{" "}
+              I specialize in{" "}
               <span className="font-medium text-foreground">
-                React, Next.js, TypeScript and Tailwind CSS.
+                React, Next.js, TypeScript, and Tailwind CSS,
               </span>{" "}
-              I also work with authentication, API integration and database
-              concepts while building practical projects.
+              with experience in API integration, authentication, and
+              database-driven applications.
             </p>
 
             <p>
-              I believe the best way to improve is to build real projects,
-              understand the problems behind the code and keep learning with
-              every iteration.
+              My approach combines clean code, thoughtful UI design, and
+              problem-solving to build reliable web applications that balance
+              performance, usability, and maintainability.
             </p>
 
             <div className="pt-3">
