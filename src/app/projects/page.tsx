@@ -18,7 +18,7 @@ import {
   Globe,
 } from "lucide-react";
 
-import { projects, type Project } from "../../data/projects";
+import { projects, type Project } from "../data/projects";
 
 function ProjectDetailsContent() {
   const reduceMotion = useReducedMotion();
