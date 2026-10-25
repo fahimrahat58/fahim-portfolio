@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import ThemeToggle from "@/app/components/theme-toggle";
 
@@ -21,7 +21,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
 
+  // Close mobile menu after navigation.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  // Close menu with Escape and prevent background scrolling while open.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -35,16 +42,23 @@ export default function Navbar() {
       }
     };
 
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
 
     return () => {
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [menuOpen]);
 
-  // Scroll to the requested section after navigating back to the home page.
+  // Scroll to the correct section after navigating to the home page.
   useEffect(() => {
     if (pathname !== "/") return;
 
@@ -59,14 +73,13 @@ export default function Navbar() {
 
       if (target) {
         target.scrollIntoView({
-          behavior: "smooth",
+          behavior: reduceMotion ? "auto" : "smooth",
           block: "start",
         });
         return;
       }
 
-      // Allow the home page sections time to mount.
-      if (attempts < 10) {
+      if (attempts < 30) {
         attempts += 1;
         frame = requestAnimationFrame(scrollToSection);
       }
@@ -75,7 +88,7 @@ export default function Navbar() {
     frame = requestAnimationFrame(scrollToSection);
 
     return () => cancelAnimationFrame(frame);
-  }, [pathname]);
+  }, [pathname, reduceMotion]);
 
   const handleNavigation = (
     event: React.MouseEvent<HTMLAnchorElement>,
@@ -87,14 +100,13 @@ export default function Navbar() {
       return;
     }
 
-    // From another route, navigate to the home page and its section.
+    // Navigate to the home page first when coming from another route.
     if (pathname !== "/") {
       event.preventDefault();
       router.push(`/${href}`);
       return;
     }
 
-    // On the home page, scroll directly to the section.
     const target = document.getElementById(href.slice(1));
 
     if (target) {
@@ -103,18 +115,22 @@ export default function Navbar() {
       window.history.pushState(null, "", `/${href}`);
 
       target.scrollIntoView({
-        behavior: "smooth",
+        behavior: reduceMotion ? "auto" : "smooth",
         block: "start",
       });
     }
   };
 
+  const headerTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.5, ease: "easeOut" as const };
+
   return (
     <motion.header
-      initial={{ y: -24, opacity: 0 }}
+      initial={reduceMotion ? false : { y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/80 shadow-sm shadow-black/[0.02] backdrop-blur-2xl"
+      transition={headerTransition}
+      className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/90 shadow-sm shadow-black/[0.02] backdrop-blur-2xl"
     >
       <nav
         aria-label="Main navigation"
@@ -193,18 +209,24 @@ export default function Navbar() {
             }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface/70 transition-all duration-200 hover:border-accent/40 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-10 sm:w-10"
+            className="relative z-[60] flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-border bg-surface/70 transition-colors hover:border-accent/40 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={menuOpen ? "close" : "open"}
-                initial={{ opacity: 0, rotate: -45, scale: 0.8 }}
+                initial={
+                  reduceMotion ? false : { opacity: 0, rotate: -45, scale: 0.8 }
+                }
                 animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 45, scale: 0.8 }}
-                transition={{ duration: 0.15 }}
+                exit={
+                  reduceMotion
+                    ? undefined
+                    : { opacity: 0, rotate: 45, scale: 0.8 }
+                }
+                transition={{ duration: reduceMotion ? 0 : 0.15 }}
                 className="flex items-center justify-center"
               >
-                {menuOpen ? <X size={19} /> : <Menu size={19} />}
+                {menuOpen ? <X size={20} /> : <Menu size={20} />}
               </motion.span>
             </AnimatePresence>
           </button>
@@ -216,27 +238,30 @@ export default function Navbar() {
         {menuOpen && (
           <motion.div
             id="mobile-navigation"
-            initial={{ opacity: 0, height: 0 }}
+            initial={reduceMotion ? false : { opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border/70 bg-background/95 backdrop-blur-2xl md:hidden"
+            exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.25,
+              ease: "easeInOut",
+            }}
+            className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border/70 bg-background shadow-xl shadow-black/10 backdrop-blur-2xl md:hidden"
           >
-            <div className="mx-auto flex max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={reduceMotion ? false : { opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
-                    delay: index * 0.04,
-                    duration: 0.2,
+                    delay: reduceMotion ? 0 : index * 0.04,
+                    duration: reduceMotion ? 0 : 0.2,
                   }}
                 >
                   <Link
                     href={`/${link.href}`}
                     onClick={(event) => handleNavigation(event, link.href)}
-                    className="block rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="block min-h-11 touch-manipulation rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-colors hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
                     {link.label}
                   </Link>
@@ -246,7 +271,7 @@ export default function Navbar() {
               <Link
                 href="/#contact"
                 onClick={(event) => handleNavigation(event, "#contact")}
-                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="mt-2 flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Let&apos;s Talk
                 <ArrowUpRight size={16} />
