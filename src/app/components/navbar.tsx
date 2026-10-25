@@ -11,8 +11,8 @@ import ThemeToggle from "@/app/components/theme-toggle";
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
   { label: "Services", href: "#services" },
   { label: "Contact", href: "#contact" },
 ];
@@ -83,12 +83,7 @@ export default function Navbar() {
   ) => {
     setMenuOpen(false);
 
-    if (
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
     }
 
@@ -161,9 +156,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={`/${link.href}`}
-              onClick={(event) =>
-                handleNavigation(event, link.href)
-              }
+              onClick={(event) => handleNavigation(event, link.href)}
               className="rounded-full px-3 py-2 text-sm font-medium text-muted transition-all duration-300 hover:bg-accent-soft hover:text-accent lg:px-4"
             >
               {link.label}
@@ -177,9 +170,7 @@ export default function Navbar() {
 
           <Link
             href="/#contact"
-            onClick={(event) =>
-              handleNavigation(event, "#contact")
-            }
+            onClick={(event) => handleNavigation(event, "#contact")}
             className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 lg:px-5"
           >
             Let&apos;s Talk
@@ -198,9 +189,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={
-              menuOpen
-                ? "Close navigation menu"
-                : "Open navigation menu"
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
             }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
@@ -246,9 +235,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={`/${link.href}`}
-                    onClick={(event) =>
-                      handleNavigation(event, link.href)
-                    }
+                    onClick={(event) => handleNavigation(event, link.href)}
                     className="block rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
                     {link.label}
@@ -258,9 +245,7 @@ export default function Navbar() {
 
               <Link
                 href="/#contact"
-                onClick={(event) =>
-                  handleNavigation(event, "#contact")
-                }
+                onClick={(event) => handleNavigation(event, "#contact")}
                 className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Let&apos;s Talk
