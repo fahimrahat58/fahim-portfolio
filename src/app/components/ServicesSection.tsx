@@ -8,6 +8,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -52,7 +53,13 @@ export default function ServicesSection() {
     >
       <div className="mx-auto max-w-7xl">
         {/* Section Heading */}
-        <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mx-auto mb-14 max-w-2xl text-center sm:mb-16"
+        >
           <span className="mb-4 inline-flex rounded-full border border-[#15A1BF]/20 bg-[#15A1BF]/10 px-4 py-2 text-sm font-medium text-[#15A1BF]">
             What I Offer
           </span>
@@ -65,16 +72,24 @@ export default function ServicesSection() {
             I help turn ideas into functional, responsive, and
             user-friendly web experiences using modern web technologies.
           </p>
-        </div>
+        </motion.div>
 
         {/* Service Cards */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6">
-          {services.map((service) => {
+          {services.map((service, index) => {
             const Icon = service.icon;
 
             return (
-              <article
+              <motion.article
                 key={service.number}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  duration: 0.55,
+                  delay: index * 0.12,
+                  ease: "easeOut",
+                }}
                 className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#15A1BF]/50 hover:shadow-xl hover:shadow-[#15A1BF]/5 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#15A1BF]/50 sm:p-8"
               >
                 <div className="absolute right-6 top-6 text-4xl font-bold text-gray-100 transition-colors duration-300 group-hover:text-[#15A1BF]/10 dark:text-white/[0.04] sm:right-8 sm:top-8">
@@ -117,17 +132,24 @@ export default function ServicesSection() {
                     />
                   </div>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-2xl border border-[#15A1BF]/20 bg-[#15A1BF]/5 p-6 text-center sm:flex-row sm:p-8 sm:text-left">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-10 flex flex-col items-center justify-between gap-5 rounded-2xl border border-[#15A1BF]/20 bg-[#15A1BF]/5 p-6 text-center sm:flex-row sm:p-8 sm:text-left"
+        >
           <div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
               Have a project in mind?
             </h3>
+
             <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
               Let&apos;s discuss how I can help bring your idea to life.
             </p>
@@ -140,7 +162,7 @@ export default function ServicesSection() {
             Contact Me
             <ArrowUpRight size={17} />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
