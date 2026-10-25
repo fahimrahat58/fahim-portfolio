@@ -8,6 +8,7 @@ import {
   UsersRound,
   Mail,
   MessageCircle,
+  Phone,
 } from "lucide-react";
 
 const contactLinks = [
@@ -16,6 +17,12 @@ const contactLinks = [
     value: "Send me an email",
     href: "mailto:fahimrahat58@gmail.com",
     icon: Mail,
+  },
+  {
+    label: "Phone",
+    value: "+880 1915-835755",
+    href: "tel:+8801915835755",
+    icon: Phone,
   },
   {
     label: "GitHub",
@@ -47,8 +54,8 @@ export default function ContactSection() {
       id="contact"
       className="relative isolate overflow-hidden border-t border-border px-5 py-24 sm:px-8 sm:py-28 lg:px-12"
     >
-      {/* Background glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-500/[0.08] blur-[110px]" />
+
       <div className="pointer-events-none absolute -right-32 bottom-0 -z-10 h-72 w-72 rounded-full bg-cyan-500/[0.07] blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl">
@@ -79,7 +86,6 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:gap-8">
-          {/* Main contact card */}
           <motion.div
             variants={revealUp}
             initial={initial}
@@ -128,17 +134,18 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
-          {/* Contact links */}
           <div className="grid content-start gap-4">
             {contactLinks.map((item, index) => {
               const Icon = item.icon;
+              const isEmail = item.label === "Email";
+              const isPhone = item.label === "Phone";
 
               return (
                 <motion.a
                   key={item.label}
                   href={item.href}
-                  target={item.label === "Email" ? undefined : "_blank"}
-                  rel={item.label === "Email" ? undefined : "noreferrer"}
+                  target={isEmail || isPhone ? undefined : "_blank"}
+                  rel={isEmail || isPhone ? undefined : "noreferrer"}
                   variants={{
                     hidden: { opacity: 0, x: 24 },
                     visible: { opacity: 1, x: 0 },
@@ -152,11 +159,11 @@ export default function ContactSection() {
                     ease: "easeOut",
                   }}
                   whileHover={shouldReduceMotion ? undefined : { x: 4 }}
-                  className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-border/80 bg-surface/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-accent/40 hover:shadow-lg hover:shadow-blue-500/[0.05] sm:p-6"
+                  className="group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-border/80 bg-surface/80 p-4 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-accent/40 hover:shadow-lg hover:shadow-blue-500/[0.05] sm:gap-4 sm:p-6"
                 >
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/[0.04] to-cyan-500/[0.04] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                  <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-accent/15 bg-gradient-to-br from-blue-500/15 to-cyan-500/10 text-accent transition-all duration-300 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-blue-500/10">
+                  <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/15 bg-gradient-to-br from-blue-500/15 to-cyan-500/10 text-accent transition-all duration-300 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-blue-500/10 sm:h-12 sm:w-12">
                     <Icon size={21} strokeWidth={1.8} />
                   </span>
 
@@ -164,12 +171,12 @@ export default function ContactSection() {
                     <span className="block font-bold tracking-tight">
                       {item.label}
                     </span>
-                    <span className="mt-1 block text-sm text-muted">
+                    <span className="mt-1 block break-words text-sm text-muted">
                       {item.value}
                     </span>
                   </span>
 
-                  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border text-muted transition-all duration-300 group-hover:border-accent/30 group-hover:bg-accent-soft group-hover:text-accent">
+                  <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border text-muted transition-all duration-300 group-hover:border-accent/30 group-hover:bg-accent-soft group-hover:text-accent sm:h-9 sm:w-9">
                     <ArrowDownRight
                       size={18}
                       className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
