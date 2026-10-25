@@ -30,6 +30,11 @@ function ProjectDetailsContent() {
     (item) => item.number === projectNumber,
   );
 
+  const transition = {
+    duration: reduceMotion ? 0 : 0.55,
+    ease: "easeOut" as const,
+  };
+
   const reveal = {
     hidden: {
       opacity: 0,
@@ -41,12 +46,11 @@ function ProjectDetailsContent() {
     },
   };
 
-  const transition = {
-    duration: reduceMotion ? 0 : 0.55,
-    ease: "easeOut" as const,
+  const viewport = {
+    once: false,
+    amount: 0.15,
   };
 
-  // Project list when no project is selected
   if (!project) {
     return (
       <main className="relative min-h-screen overflow-hidden bg-background px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
@@ -68,16 +72,7 @@ function ProjectDetailsContent() {
           </motion.div>
 
           <motion.div
-            variants={{
-              hidden: {
-                opacity: 0,
-                y: reduceMotion ? 0 : 25,
-              },
-              visible: {
-                opacity: 1,
-                y: 0,
-              },
-            }}
+            variants={reveal}
             initial="hidden"
             animate="visible"
             transition={{
@@ -106,7 +101,7 @@ function ProjectDetailsContent() {
                 key={item.number}
                 initial={reduceMotion ? false : { opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.12 }}
+                viewport={{ once: false, amount: 0.12 }}
                 transition={{
                   duration: reduceMotion ? 0 : 0.5,
                   delay: reduceMotion ? 0 : index * 0.1,
@@ -221,7 +216,6 @@ function ProjectDetailsContent() {
       <div className="pointer-events-none absolute -left-32 top-[45%] -z-0 h-72 w-72 rounded-full bg-cyan-500/[0.06] blur-[100px]" />
 
       <div className="relative mx-auto max-w-6xl">
-        {/* Back Navigation */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
@@ -236,7 +230,6 @@ function ProjectDetailsContent() {
           </Link>
         </motion.div>
 
-        {/* Project Header */}
         <motion.section
           variants={reveal}
           initial="hidden"
@@ -272,7 +265,6 @@ function ProjectDetailsContent() {
             {project.description}
           </p>
 
-          {/* Project Links */}
           <div className="mt-7 flex flex-wrap gap-3">
             <motion.a
               href={project.liveUrl}
@@ -302,11 +294,10 @@ function ProjectDetailsContent() {
           </div>
         </motion.section>
 
-        {/* Project Screenshot */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 35, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={{
             duration: reduceMotion ? 0 : 0.7,
             ease: "easeOut",
@@ -326,12 +317,11 @@ function ProjectDetailsContent() {
           </div>
         </motion.div>
 
-        {/* Description and Technology Stack */}
         <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_0.85fr] lg:gap-8">
           <motion.section
             initial={reduceMotion ? false : { opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={viewport}
             transition={transition}
             className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-blue-500/[0.04] sm:p-8"
           >
@@ -377,7 +367,7 @@ function ProjectDetailsContent() {
           <motion.section
             initial={reduceMotion ? false : { opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={viewport}
             transition={{
               ...transition,
               delay: reduceMotion ? 0 : 0.12,
@@ -403,7 +393,7 @@ function ProjectDetailsContent() {
                   key={technology}
                   initial={reduceMotion ? false : { opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false, amount: 0.2 }}
                   transition={{
                     duration: reduceMotion ? 0 : 0.3,
                     delay: reduceMotion ? 0 : index * 0.04,
@@ -449,7 +439,6 @@ function ProjectDetailsContent() {
           </motion.section>
         </div>
 
-        {/* Challenges and Future Plans */}
         <section className="mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
           {detailSections.map((section, index) => {
             const SectionIcon = section.icon;
@@ -459,7 +448,7 @@ function ProjectDetailsContent() {
                 key={section.title}
                 initial={reduceMotion ? false : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
+                viewport={viewport}
                 transition={{
                   duration: reduceMotion ? 0 : 0.55,
                   delay: reduceMotion ? 0 : index * 0.12,
@@ -473,7 +462,7 @@ function ProjectDetailsContent() {
                         transition: { duration: 0.25 },
                       }
                 }
-                className="rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/[0.04] sm:p-8"
+                className="group rounded-3xl border border-border/80 bg-surface/80 p-6 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/[0.04] sm:p-8"
               >
                 <div className="flex items-start gap-4">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500 transition-transform duration-300 group-hover:scale-105">
@@ -505,7 +494,7 @@ function ProjectDetailsContent() {
                       key={`${section.title}-${itemIndex}`}
                       initial={reduceMotion ? false : { opacity: 0, x: -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false, amount: 0.3 }}
                       transition={{
                         duration: reduceMotion ? 0 : 0.35,
                         delay: reduceMotion ? 0 : itemIndex * 0.06,
@@ -528,11 +517,10 @@ function ProjectDetailsContent() {
           })}
         </section>
 
-        {/* Other Projects */}
         <motion.section
           initial={reduceMotion ? false : { opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: false, amount: 0.1 }}
           transition={transition}
           className="mt-16 border-t border-border pt-10 sm:mt-20 sm:pt-12"
         >
@@ -564,7 +552,7 @@ function ProjectDetailsContent() {
                   key={item.number}
                   initial={reduceMotion ? false : { opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
+                  viewport={{ once: false, amount: 0.1 }}
                   transition={{
                     duration: reduceMotion ? 0 : 0.45,
                     delay: reduceMotion ? 0 : index * 0.08,
@@ -612,11 +600,10 @@ function ProjectDetailsContent() {
           </div>
         </motion.section>
 
-        {/* Bottom Navigation */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={transition}
           className="mt-12 flex justify-center"
         >
