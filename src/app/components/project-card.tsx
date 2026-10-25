@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Code2, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Code2, ExternalLink, FileText } from "lucide-react";
 import type { Project } from "../data/projects";
 
 interface ProjectCardProps {
@@ -26,8 +27,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       whileHover={reduceMotion ? undefined : { y: -6 }}
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface/90 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-blue-500/35 hover:shadow-2xl hover:shadow-blue-950/[0.07] dark:hover:shadow-black/25"
     >
+      {/* Background Effect */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/[0.035] via-transparent to-cyan-400/[0.035] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
+      {/* Project Image */}
       <div className="relative m-3 mb-0 overflow-hidden rounded-2xl border border-border/70 bg-surface-secondary sm:m-4 sm:mb-0">
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
@@ -40,10 +43,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/[0.04] to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-50" />
 
+          {/* Project Number */}
           <span className="absolute left-3 top-3 rounded-xl border border-white/20 bg-black/60 px-3 py-1.5 font-mono text-xs font-medium tracking-wide text-white shadow-lg backdrop-blur-xl sm:left-4 sm:top-4">
             {project.number}
           </span>
 
+          {/* Featured Badge */}
           {project.featured && (
             <span className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-xl border border-blue-300/30 bg-blue-600/90 px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-xl sm:right-4 sm:top-4">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
@@ -51,6 +56,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </span>
           )}
 
+          {/* Image Hover Content */}
           <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-4 sm:left-4 sm:right-4">
             <span className="max-w-[75%] truncate rounded-lg border border-white/15 bg-black/50 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-xl">
               {project.subtitle}
@@ -63,6 +69,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </div>
 
+      {/* Project Information */}
       <div className="relative flex flex-1 flex-col p-5 sm:p-6">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400">
           {project.subtitle}
@@ -83,6 +90,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.description}
         </p>
 
+        {/* Technologies */}
         <div className="mt-5 flex flex-wrap gap-2">
           {project.technologies.map((technology) => (
             <span
@@ -94,26 +102,40 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-border/80 pt-5">
+        {/* Action Buttons */}
+        <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-border/80 pt-5">
+          {/* Live Demo */}
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/15 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-600/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/15 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-600/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             Live Demo
             <ExternalLink size={15} />
           </a>
 
+          {/* Source Code */}
           <a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface/70 px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/35 hover:bg-blue-500/[0.05] hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface/70 px-3.5 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/35 hover:bg-blue-500/[0.05] hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
           >
             <Code2 size={16} />
             Source Code
           </a>
+
+          {/* Project Details */}
+          <Link
+            href={`/projects?project=${encodeURIComponent(project.number)}`}
+            aria-label={`View details for ${project.title}`}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/[0.05] px-3.5 py-2.5 text-sm font-semibold text-blue-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/50 hover:bg-blue-500/10 dark:text-blue-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+          >
+            <FileText size={16} />
+            Details
+            <ArrowUpRight size={15} />
+          </Link>
         </div>
       </div>
     </motion.article>
