@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import ThemeToggle from "@/app/components/theme-toggle";
 
@@ -23,12 +23,12 @@ export default function Navbar() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
 
-  // Close mobile menu after navigation.
+  // Close the mobile menu whenever the route changes.
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
 
-  // Close menu with Escape and prevent background scrolling while open.
+  // Close menu with Escape and on desktop resize.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -42,23 +42,16 @@ export default function Navbar() {
       }
     };
 
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
 
     return () => {
-      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
-  }, [menuOpen]);
+  }, []);
 
-  // Scroll to the correct section after navigating to the home page.
+  // Navigate to the correct section after returning to the home page.
   useEffect(() => {
     if (pathname !== "/") return;
 
@@ -100,7 +93,7 @@ export default function Navbar() {
       return;
     }
 
-    // Navigate to the home page first when coming from another route.
+    // Navigate home first if the user is on another page.
     if (pathname !== "/") {
       event.preventDefault();
       router.push(`/${href}`);
@@ -121,15 +114,14 @@ export default function Navbar() {
     }
   };
 
-  const headerTransition = reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.5, ease: "easeOut" as const };
-
   return (
     <motion.header
       initial={reduceMotion ? false : { y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={headerTransition}
+      transition={{
+        duration: reduceMotion ? 0 : 0.5,
+        ease: "easeOut",
+      }}
       className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/90 shadow-sm shadow-black/[0.02] backdrop-blur-2xl"
     >
       <nav
@@ -203,7 +195,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => setMenuOpen((prev) => !prev)}
             aria-label={
               menuOpen ? "Close navigation menu" : "Open navigation menu"
             }
@@ -211,75 +203,49 @@ export default function Navbar() {
             aria-controls="mobile-navigation"
             className="relative z-[60] flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-border bg-surface/70 transition-colors hover:border-accent/40 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={menuOpen ? "close" : "open"}
-                initial={
-                  reduceMotion ? false : { opacity: 0, rotate: -45, scale: 0.8 }
-                }
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={
-                  reduceMotion
-                    ? undefined
-                    : { opacity: 0, rotate: 45, scale: 0.8 }
-                }
-                transition={{ duration: reduceMotion ? 0 : 0.15 }}
-                className="flex items-center justify-center"
-              >
-                {menuOpen ? <X size={20} /> : <Menu size={20} />}
-              </motion.span>
-            </AnimatePresence>
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
 
       {/* Mobile Navigation */}
-      <AnimatePresence initial={false}>
-        {menuOpen && (
-          <motion.div
-            id="mobile-navigation"
-            initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.25,
-              ease: "easeInOut",
-            }}
-            className="absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border/70 bg-background shadow-xl shadow-black/10 backdrop-blur-2xl md:hidden"
-          >
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={reduceMotion ? false : { opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: reduceMotion ? 0 : index * 0.04,
-                    duration: reduceMotion ? 0 : 0.2,
-                  }}
-                >
-                  <Link
-                    href={`/${link.href}`}
-                    onClick={(event) => handleNavigation(event, link.href)}
-                    className="block min-h-11 touch-manipulation rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-colors hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-
-              <Link
-                href="/#contact"
-                onClick={(event) => handleNavigation(event, "#contact")}
-                className="mt-2 flex min-h-11 touch-manipulation items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      {menuOpen && (
+        <div
+          id="mobile-navigation"
+          className="absolute inset-x-0 top-full z-[60] max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-background shadow-xl shadow-black/10 md:hidden"
+        >
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-3 py-3 min-[375px]:px-4 sm:px-8 sm:py-4">
+            {navLinks.map((link, index) => (
+              <motion.div
+                key={link.href}
+                initial={reduceMotion ? false : { opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.2,
+                  delay: reduceMotion ? 0 : index * 0.03,
+                }}
               >
-                Let&apos;s Talk
-                <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <Link
+                  href={`/${link.href}`}
+                  onClick={(event) => handleNavigation(event, link.href)}
+                  className="flex min-h-12 touch-manipulation items-center rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-muted transition-colors hover:border-accent/15 hover:bg-accent-soft hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
+            ))}
+
+            <Link
+              href="/#contact"
+              onClick={(event) => handleNavigation(event, "#contact")}
+              className="mt-2 flex min-h-12 touch-manipulation items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Let&apos;s Talk
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+        </div>
+      )}
     </motion.header>
   );
 }
