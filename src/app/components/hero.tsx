@@ -1,7 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Sparkles,
+  Download,
+  FileText,
+} from "lucide-react";
 
 const skills = ["React", "Next.js", "TypeScript", "Tailwind CSS"];
 
@@ -25,6 +33,7 @@ export default function Hero() {
       id="home"
       className="relative isolate flex min-h-[100svh] scroll-mt-20 items-center overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pt-36 lg:px-12"
     >
+      {/* Background */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_15%,rgba(37,99,235,0.13),transparent_42%),radial-gradient(ellipse_at_85%_65%,rgba(6,182,212,0.09),transparent_42%)] dark:bg-[radial-gradient(ellipse_at_20%_15%,rgba(59,130,246,0.17),transparent_42%),radial-gradient(ellipse_at_85%_65%,rgba(6,182,212,0.10),transparent_42%)]" />
 
@@ -39,7 +48,11 @@ export default function Hero() {
                   scale: [1, 1.12, 0.96, 1],
                 }
           }
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
           className="absolute -right-40 top-24 h-80 w-80 rounded-full bg-blue-500/15 blur-[110px] sm:h-[30rem] sm:w-[30rem]"
         />
 
@@ -65,6 +78,7 @@ export default function Hero() {
       </div>
 
       <div className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
+        {/* Left Content */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -72,7 +86,9 @@ export default function Hero() {
           variants={{
             hidden: {},
             visible: {
-              transition: { staggerChildren: reduceMotion ? 0 : 0.12 },
+              transition: {
+                staggerChildren: reduceMotion ? 0 : 0.12,
+              },
             },
           }}
           className="relative z-10"
@@ -111,12 +127,17 @@ export default function Hero() {
             combining thoughtful design with practical solutions.
           </motion.p>
 
+          {/* Skills */}
           <motion.div variants={reveal} className="mt-8 flex flex-wrap gap-2.5">
-            {skills.map((skill, index) => (
+            {skills.map((skill) => (
               <motion.span
                 key={skill}
                 whileHover={reduceMotion ? undefined : { y: -4, scale: 1.04 }}
-                transition={{ type: "spring", stiffness: 350, damping: 18 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 350,
+                  damping: 18,
+                }}
                 className="rounded-xl border border-border/80 bg-surface/70 px-3.5 py-2.5 text-xs font-medium text-muted shadow-sm backdrop-blur-xl transition-colors duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.06] hover:text-foreground sm:text-sm"
               >
                 {skill}
@@ -124,9 +145,10 @@ export default function Hero() {
             ))}
           </motion.div>
 
+          {/* Action Buttons */}
           <motion.div
             variants={reveal}
-            className="mt-9 flex flex-col gap-3 min-[420px]:flex-row"
+            className="mt-9 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
           >
             <motion.a
               href="#projects"
@@ -150,8 +172,35 @@ export default function Hero() {
               Get in Touch
               <ArrowUpRight size={17} />
             </motion.a>
+
+            {/* View Resume */}
+            <motion.a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={reduceMotion ? undefined : { y: -3 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/[0.06] px-6 py-3.5 text-sm font-semibold text-foreground transition-all duration-300 hover:border-blue-500/60 hover:bg-blue-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            >
+              <FileText size={17} />
+              View Resume
+              <ArrowUpRight size={16} />
+            </motion.a>
+
+            {/* Download Resume */}
+            <motion.a
+              href="/resume.pdf"
+              download="Fahim-Muntasir-Rahat-Resume.pdf"
+              whileHover={reduceMotion ? undefined : { y: -3 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface/60 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur-xl transition-all duration-300 hover:border-blue-500/40 hover:bg-blue-500/[0.06] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            >
+              <Download size={17} />
+              Download Resume
+            </motion.a>
           </motion.div>
 
+          {/* Social Links */}
           <motion.div
             variants={reveal}
             className="mt-9 flex items-center gap-4"
@@ -194,6 +243,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
+        {/* Right Side: Profile Image */}
         <motion.div
           initial={{
             opacity: 0,
@@ -201,135 +251,100 @@ export default function Hero() {
             y: reduceMotion ? 0 : 20,
           }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.1 }}
-          transition={{ duration: reduceMotion ? 0 : 0.9, delay: 0.25 }}
-          className="relative mx-auto w-full max-w-md lg:max-w-none"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.9,
+            delay: reduceMotion ? 0 : 0.2,
+          }}
+          className="relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-none"
         >
           <motion.div
             aria-hidden="true"
             animate={reduceMotion ? {} : { rotate: 360 }}
-            transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-3 rounded-[2.5rem] border border-dashed border-blue-500/20 sm:-inset-6"
+            transition={{
+              duration: 45,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute -inset-3 rounded-[2.5rem] border border-dashed border-blue-500/25 sm:-inset-5"
           />
 
-          <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/[0.08] via-transparent to-cyan-400/[0.08] blur-2xl" />
+          <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/20 via-indigo-500/10 to-cyan-400/20 blur-2xl sm:-inset-7" />
 
-          <div className="relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-surface/80 p-5 shadow-2xl shadow-blue-950/[0.08] backdrop-blur-2xl sm:rounded-[2rem] sm:p-7 dark:shadow-black/30">
-            <div className="flex items-center justify-between border-b border-border/80 pb-5">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-400 shadow-sm shadow-rose-400/30" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/30" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/30" />
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-surface/80 p-2 shadow-2xl shadow-blue-950/[0.08] backdrop-blur-2xl sm:rounded-[2rem] sm:p-3 dark:shadow-black/30">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem] bg-muted sm:rounded-[1.5rem]">
+              <Image
+                src="/fahim.jpg"
+                alt="Fahim Muntasir Rahat - Web Developer"
+                fill
+                priority
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 65vw, 450px"
+                className="object-cover object-center transition-transform duration-700 hover:scale-[1.03]"
+              />
+
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                <p className="text-xs font-medium uppercase tracking-[0.2em] text-cyan-300">
+                  Web Developer
+                </p>
+                <h2 className="mt-2 text-xl font-bold tracking-tight text-white sm:text-2xl">
+                  Fahim Muntasir Rahat
+                </h2>
+                <p className="mt-1.5 text-sm text-white/75">
+                  Building modern web experiences.
+                </p>
               </div>
-
-              <span className="rounded-lg border border-border/70 bg-background/50 px-3 py-1.5 font-mono text-xs text-muted">
-                developer.ts
-              </span>
             </div>
 
-            <div className="space-y-5 py-7 font-mono text-xs leading-7 sm:text-sm">
-              <p className="text-muted">
-                <span className="text-blue-500">const</span> developer = {"{"}
-              </p>
+            <div className="flex items-center justify-between gap-3 px-2 py-4 sm:px-3 sm:py-5">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="relative flex h-3 w-3 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
+                </span>
 
-              <div className="space-y-2 pl-5 sm:pl-7">
-                <p className="break-words">
-                  <span className="text-cyan-600 dark:text-cyan-300">name</span>
-                  :{" "}
-                  <span className="text-emerald-600 dark:text-emerald-300">
-                    &quot;Fahim Rahat&quot;
-                  </span>
-                  ,
-                </p>
-
-                <p>
-                  <span className="text-cyan-600 dark:text-cyan-300">
-                    focus
-                  </span>
-                  :{" "}
-                  <span className="text-emerald-600 dark:text-emerald-300">
-                    &quot;Web Development&quot;
-                  </span>
-                  ,
-                </p>
-
-                <p>
-                  <span className="text-cyan-600 dark:text-cyan-300">
-                    stack
-                  </span>
-                  : [
-                </p>
-
-                <div className="space-y-1 pl-5 sm:pl-7">
-                  <p className="text-emerald-600 dark:text-emerald-300">
-                    &quot;React&quot;,
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">
+                    Open to Opportunities
                   </p>
-
-                  <p className="text-emerald-600 dark:text-emerald-300">
-                    &quot;Next.js&quot;,
-                  </p>
-
-                  <p className="text-emerald-600 dark:text-emerald-300">
-                    &quot;TypeScript&quot;
+                  <p className="mt-1 text-xs text-muted">
+                    React · Next.js · TypeScript
                   </p>
                 </div>
-
-                <p>],</p>
-
-                <p>
-                  <span className="text-cyan-600 dark:text-cyan-300">
-                    mindset
-                  </span>
-                  :{" "}
-                  <span className="text-emerald-600 dark:text-emerald-300">
-                    &quot;Build. Learn. Improve.&quot;
-                  </span>
-                </p>
               </div>
 
-              <p className="text-muted">{"};"}</p>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-blue-500/15 bg-gradient-to-r from-blue-500/[0.07] to-cyan-400/[0.05] p-4">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">
-                  Turning ideas into code
-                </p>
-                <p className="mt-1 text-xs text-muted">
-                  One project at a time.
-                </p>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 sm:h-11 sm:w-11">
+                <ArrowUpRight size={21} />
               </div>
-
-              <motion.div
-                animate={reduceMotion ? {} : { y: [0, -4, 0] }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20"
-              >
-                <ArrowUpRight size={22} />
-              </motion.div>
             </div>
           </div>
 
+          {/* Floating Code Badge */}
           <motion.div
             aria-hidden="true"
             animate={reduceMotion ? {} : { y: [0, -10, 0], rotate: [0, 5, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-2 -top-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-border/80 bg-surface/90 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-right-5 sm:-top-6"
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute -right-2 -top-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-border/80 bg-surface/95 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-right-5 sm:-top-6"
           >
             <span className="bg-gradient-to-br from-blue-500 to-cyan-400 bg-clip-text text-lg font-bold text-transparent">
               {"</>"}
             </span>
           </motion.div>
 
+          {/* Floating Focus Badge */}
           <motion.div
-            aria-hidden="true"
             animate={reduceMotion ? {} : { y: [0, 8, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-4 -left-2 rounded-2xl border border-border/80 bg-surface/90 px-4 py-3 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-left-5"
+            transition={{
+              duration: 3.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute -bottom-4 -left-2 max-w-[85%] rounded-2xl border border-border/80 bg-surface/95 px-4 py-3 shadow-xl shadow-blue-950/[0.06] backdrop-blur-xl sm:-left-5 sm:px-5"
           >
             <p className="text-xs font-medium text-muted">
               Currently focused on
@@ -341,16 +356,24 @@ export default function Hero() {
         </motion.div>
       </div>
 
+      {/* Scroll Indicator */}
       <motion.a
         href="#about"
         aria-label="Scroll to About section"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: reduceMotion ? 0 : [0, 6, 0] }}
+        animate={{
+          opacity: 1,
+          y: reduceMotion ? 0 : [0, 6, 0],
+        }}
         transition={{
           opacity: { delay: 1 },
           y: reduceMotion
             ? {}
-            : { duration: 2, repeat: Infinity, ease: "easeInOut" },
+            : {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
         }}
         className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-blue-500 sm:flex"
       >
