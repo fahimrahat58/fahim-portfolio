@@ -15,6 +15,40 @@ export interface Project {
 export const projects: Project[] = [
   {
     number: "01",
+    title: "Wanderlust",
+    subtitle: "Travel Booking Platform",
+    description:
+      "A full-stack travel booking platform where users can explore destinations, view trip details, manage their profiles, and create bookings. Built with Next.js, Express.js, MongoDB, and Better Auth, with JWT-secured API requests and admin authorization.",
+    image: "/images/projects/wanderlust.png",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Express.js",
+      "MongoDB",
+      "Better Auth",
+      "JWT",
+    ],
+    liveUrl: "https://wanderlust-omega-nine.vercel.app/",
+    githubUrl: "https://github.com/fahimrahat58/wanderlust-client",
+    featured: true,
+    challenges: [
+      "Connecting a Next.js frontend to a separately deployed Express.js backend.",
+      "Implementing authentication and securely verifying JWTs for protected API requests.",
+      "Managing destination details, booking operations, and user profile data.",
+      "Restricting administrative actions with backend authorization.",
+      "Handling API errors and maintaining a responsive experience across devices.",
+    ],
+    futurePlans: [
+      "Integrate a secure online payment gateway for bookings.",
+      "Add booking confirmation emails and notifications.",
+      "Introduce destination reviews and ratings.",
+      "Improve destination search, filtering, and personalized recommendations.",
+    ],
+  },
+  {
+    number: "02",
     title: "Bazar Dor",
     subtitle: "Market Price Tracking Platform",
     description:
@@ -44,9 +78,8 @@ export const projects: Project[] = [
       "Optimize performance and accessibility across devices.",
     ],
   },
-
   {
-    number: "02",
+    number: "03",
     title: "Bangla News 24",
     subtitle: "Bangla News Platform",
     description:
@@ -75,32 +108,6 @@ export const projects: Project[] = [
       "Optimize article loading speed and accessibility.",
     ],
   },
-
-  {
-    number: "03",
-    title: "Book Vibe",
-    subtitle: "Book Discovery & Reading Lists",
-    description:
-      "A book-focused web application for exploring books and organizing reading lists and wishlists.",
-    image: "/images/projects/book-vibe.png",
-    technologies: ["React", "JavaScript", "CSS", "Authentication"],
-    liveUrl: "https://book-vibe-six-delta.vercel.app/",
-    githubUrl: "https://github.com/fahimrahat58/book-vibe",
-    featured: false,
-    challenges: [
-      "Displaying book information in an organized and user-friendly interface.",
-      "Building reusable components for book cards and related content.",
-      "Managing reading lists and wishlist interactions in the user interface.",
-      "Maintaining a consistent layout across different screen sizes.",
-    ],
-    futurePlans: [
-      "Add advanced book search and filtering options.",
-      "Improve reading list and wishlist management.",
-      "Introduce book ratings and user reviews.",
-      "Enhance the book discovery experience with personalized recommendations.",
-    ],
-  },
-
   {
     number: "04",
     title: "FitLog",
