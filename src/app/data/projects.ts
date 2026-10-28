@@ -30,7 +30,7 @@ export const projects: Project[] = [
       "Better Auth",
       "JWT",
     ],
-    liveUrl: "https://wanderlust-omega-nine.vercel.app/",
+    liveUrl: "https://wanderlust-five-rose.vercel.app/",
     githubUrl: "https://github.com/fahimrahat58/wanderlust-client",
     featured: true,
     challenges: [
