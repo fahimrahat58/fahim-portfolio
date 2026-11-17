@@ -15,6 +15,46 @@ export interface Project {
 export const projects: Project[] = [
   {
     number: "01",
+    title: "HireLoop",
+    subtitle: "Job Portal & Recruitment Platform",
+    description:
+      "A modern job portal designed to connect job seekers with recruiters through a streamlined recruitment experience. Job seekers can explore job opportunities, apply for positions, track their applications, and manage their profiles. Recruiters can create and manage job listings, review applications, and manage candidates. Built with Next.js, TypeScript, Node.js, Express.js, MongoDB, and Better Auth.",
+    image: "/images/projects/hireloop.png",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Better Auth",
+      "JWT",
+      "REST API",
+      "Stripe",
+      "Vercel",
+    ],
+    liveUrl: "https://hire-loop.vercel.app/",
+    githubUrl: "https://github.com/fahimrahat58/hire-loop",
+    featured: true,
+    challenges: [
+      "Building separate dashboards and experiences for job seekers and recruiters.",
+      "Implementing secure authentication and role-based access control.",
+      "Connecting frontend components with backend job and application APIs.",
+      "Managing job applications and tracking application statuses.",
+      "Integrating subscription and payment functionality using Stripe.",
+      "Creating responsive dashboards and reusable components for different screen sizes.",
+    ],
+    futurePlans: [
+      "Add real-time notifications for job applications and recruitment updates.",
+      "Introduce advanced job search with filters for location, salary, and job type.",
+      "Add interview scheduling and candidate management features.",
+      "Improve recruiter analytics and application tracking.",
+      "Enhance accessibility and optimize performance across devices.",
+    ],
+  },
+  {
+    number: "02",
     title: "ShobaiMile",
     subtitle: "Volunteer Community Platform",
     description:
@@ -52,7 +92,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    number: "02",
+    number: "03",
     title: "Bazar Dor",
     subtitle: "Market Price Tracking Platform",
     description:
@@ -83,7 +123,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    number: "03",
+    number: "04",
     title: "Bangla News 24",
     subtitle: "Bangla News Platform",
     description:
@@ -110,37 +150,6 @@ export const projects: Project[] = [
       "Introduce bookmarks and saved articles.",
       "Improve search and category-based filtering.",
       "Optimize article loading speed and accessibility.",
-    ],
-  },
-  {
-    number: "04",
-    title: "FitLog",
-    subtitle: "Fitness & Workout Tracking",
-    description:
-      "A fitness application focused on workout discovery and workout management, providing users with a structured digital experience for exploring exercises and organizing fitness routines.",
-    image: "/images/projects/fitlog.png",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "React",
-      "Tailwind CSS",
-      "REST API",
-      "Responsive Web Design",
-    ],
-    liveUrl: "https://fit-log-plum.vercel.app/",
-    githubUrl: "https://github.com/fahimrahat58/Fit-Log",
-    featured: false,
-    challenges: [
-      "Organizing workout information into a clear and user-friendly interface.",
-      "Integrating workout data from an external API.",
-      "Building reusable components for a consistent design.",
-      "Making the layout responsive across mobile, tablet, and desktop devices.",
-    ],
-    futurePlans: [
-      "Expand workout history and progress tracking.",
-      "Introduce customizable workout routines.",
-      "Display fitness progress using charts and statistics.",
-      "Improve the mobile experience and overall accessibility.",
     ],
   },
 ];
