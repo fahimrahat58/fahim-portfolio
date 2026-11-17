@@ -34,8 +34,8 @@ export const projects: Project[] = [
       "Stripe",
       "Vercel",
     ],
-    liveUrl: "https://hire-loop.vercel.app/",
-    githubUrl: "https://github.com/fahimrahat58/hire-loop",
+    liveUrl: "https://hire-loop-client-smoky.vercel.app",
+    githubUrl: "https://github.com/fahimrahat58/hire-loop-client",
     featured: true,
     challenges: [
       "Building separate dashboards and experiences for job seekers and recruiters.",
