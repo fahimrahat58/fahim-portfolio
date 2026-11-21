@@ -15,6 +15,49 @@ export interface Project {
 export const projects: Project[] = [
   {
     number: "01",
+    title: "PizzaHub",
+    subtitle: "Online Pizza Ordering & Restaurant Management Platform",
+    description:
+      "A full-stack pizza ordering platform designed to connect customers with restaurants through a seamless food ordering experience. Customers can explore restaurants, browse menus, customize their orders, manage carts, make secure payments, track orders, and receive personalized pizza recommendations through Taste DNA. Vendors can manage restaurants, menus, orders, and subscriptions, while admins oversee platform activities. Built with Next.js, TypeScript, Node.js, Express.js, MongoDB, Better Auth, and Stripe.",
+    image: "/images/projects/pizzahub.png",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Better Auth",
+      "JWT",
+      "REST API",
+      "Stripe",
+      "Resend",
+      "ImgBB",
+      "Vercel",
+    ],
+    liveUrl: "https://pizzahub-mocha.vercel.app/",
+    githubUrl: "https://github.com/fahimrahat58/pizzahub-client",
+    featured: true,
+    challenges: [
+      "Implementing secure JWT authentication with Better Auth JWKS verification and role-based access control.",
+      "Building separate customer, vendor, and admin experiences with protected dashboards and routes.",
+      "Integrating Stripe Checkout and secure webhook handling for payment verification and subscription management.",
+      "Developing advanced menu filtering, searching, sorting, and pagination through API query parameters.",
+      "Building the Taste DNA recommendation engine to generate personalized pizza recommendations from customer activity.",
+      "Managing order status transitions, payment consistency, and delivery-date restrictions.",
+      "Implementing reliable email notifications and secure image uploads using Resend and ImgBB.",
+    ],
+    futurePlans: [
+      "Add real-time order tracking and delivery updates.",
+      "Introduce customer reviews and richer restaurant ratings.",
+      "Improve recommendation accuracy with additional customer preference signals.",
+      "Expand vendor analytics and sales reporting.",
+      "Optimize performance and accessibility across devices.",
+    ],
+  },
+  {
+    number: "02",
     title: "HireLoop",
     subtitle: "Job Portal & Recruitment Platform",
     description:
@@ -54,7 +97,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    number: "02",
+    number: "03",
     title: "ShobaiMile",
     subtitle: "Volunteer Community Platform",
     description:
@@ -92,7 +135,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    number: "03",
+    number: "04",
     title: "Bazar Dor",
     subtitle: "Market Price Tracking Platform",
     description:
@@ -120,36 +163,6 @@ export const projects: Project[] = [
       "Improve search, filtering, and sorting capabilities.",
       "Introduce product price alerts and a wishlist feature.",
       "Optimize performance and accessibility across devices.",
-    ],
-  },
-  {
-    number: "04",
-    title: "Bangla News 24",
-    subtitle: "Bangla News Platform",
-    description:
-      "A Bengali news website featuring categorized news content, API integration, responsive layouts, and user authentication.",
-    image: "/images/projects/bangla-news24.png",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "REST API",
-      "Better Auth",
-    ],
-    liveUrl: "https://bangla-news24-7.vercel.app/",
-    githubUrl: "https://github.com/fahimrahat58/bangla-news24-7",
-    featured: true,
-    challenges: [
-      "Organizing news content into categories for easier navigation.",
-      "Fetching and displaying API data in a consistent and readable layout.",
-      "Creating responsive news cards and page layouts for different screen sizes.",
-      "Integrating authentication into the overall user experience.",
-    ],
-    futurePlans: [
-      "Add a personalized news feed based on user interests.",
-      "Introduce bookmarks and saved articles.",
-      "Improve search and category-based filtering.",
-      "Optimize article loading speed and accessibility.",
     ],
   },
 ];
